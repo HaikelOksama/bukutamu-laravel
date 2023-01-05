@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('tamu', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->string('nama');
             $table->enum('kelamin', ['L','P']);
             $table->string('email')->nullable();

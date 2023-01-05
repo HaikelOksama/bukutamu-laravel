@@ -11,35 +11,35 @@ Route::get('/tamu', [TamuController::class, 'index'])->name('index');
 Route::get('/tamu/baru', [TamuController::class, 'create'])->name('create')->middleware('auth');
 
 // Store tamu route
-Route::post('/tamu', [TamuController::class, 'store'])->name('store-tamu');
+Route::post('/tamu', [TamuController::class, 'store'])->name('store-tamu')->middleware('auth');
 
 // Show Tamu route
 Route::get('/tamu/{tamu}', [TamuController::class,'show'])->name('detail');
 
 // Show Edit tamu route
-Route::get('/tamu/{tamu}/edit', [TamuController::class, 'edit'])->name('edit');
+Route::get('/tamu/{tamu}/edit', [TamuController::class, 'edit'])->name('edit')->middleware('auth');
 
 // Edit Submit tamu route
-Route::put('/tamu/{tamu}', [TamuController::class, 'update'])->name('update');
+Route::put('/tamu/{tamu}', [TamuController::class, 'update'])->name('update')->middleware('auth');
 
 // Destroy tamu route
-Route::delete('/tamu/{tamu}', [TamuController::class, 'destroy'])->name('destroy');
+Route::delete('/tamu/{tamu}', [TamuController::class, 'destroy'])->name('destroy')->middleware('auth');
 
 Route::get('/', function () {
     return view('welcome');
 });
 
 // Show Register route
-Route::get('/register', [UserController::class, 'create'])->name('auth.register');
+Route::get('/register', [UserController::class, 'create'])->name('auth.register')->middleware('guest');
 
 // Store new user route
-Route::post('/users', [UserController::class,'store'])->name('auth.store');
+Route::post('/users', [UserController::class,'store'])->name('auth.store')->middleware('guest');
 
 // Logout the user 
-Route::post('/logout', [UserController::class, 'logout'])->name('auth.logout');
+Route::post('/logout', [UserController::class, 'logout'])->name('auth.logout')->middleware('auth');
 
 // Show Login route
-Route::get('/login', [UserController::class,'login'])->name('auth.login');
+Route::get('/login', [UserController::class,'login'])->name('auth.login')->middleware('guest');
 
 // Authenticate user route
-Route::post('/authenticate', [UserController::class, 'authenticate'])->name('auth.authenticate');
+Route::post('/authenticate', [UserController::class, 'authenticate'])->name('auth.authenticate')->middleware('guest');

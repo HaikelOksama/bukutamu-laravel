@@ -9,4 +9,9 @@ class Tamu extends Model
 {
     use HasFactory;
     public $table = "tamu";
+
+    public function user() {
+        return $this->belongsTo(User::class, "user_id"); 
+    }
+    
 }

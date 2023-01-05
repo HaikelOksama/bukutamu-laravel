@@ -19,7 +19,6 @@ class TamuController extends Controller
     }
 
     public function store(Request $request) {
-        // dd($request->all());
         $formfields = $request->validate([
             'nama' => 'required',
             'email' =>['nullable','email'],
@@ -28,6 +27,9 @@ class TamuController extends Controller
             'keperluan' => 'required',
             'tanggalDatang' => 'required',
         ]);
+
+        $formfields['user_id'] = auth()->id();
+
         Tamu::create($formfields);
         return redirect('/tamu')->with('message', 'Data Tamu berhasil ditambahkan');
     }
@@ -39,6 +41,9 @@ class TamuController extends Controller
     }
 
     public function edit(Tamu $tamu) {
+        if($tamu->user_id != auth()->id()) {
+            dd('This guy not allowed');
+        }
         return view('tamu.edit', ['tamu' => $tamu]);
     }
 
