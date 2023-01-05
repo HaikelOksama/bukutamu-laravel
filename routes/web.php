@@ -1,24 +1,14 @@
 <?php
 
 use App\Http\Controllers\TamuController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 // Index tamu route
 Route::get('/tamu', [TamuController::class, 'index'])->name('index');
 
 // Show Create tamu route
-Route::get('/tamu/baru', [TamuController::class, 'create'])->name('create');
+Route::get('/tamu/baru', [TamuController::class, 'create'])->name('create')->middleware('auth');
 
 // Store tamu route
 Route::post('/tamu', [TamuController::class, 'store'])->name('store-tamu');
@@ -39,3 +29,17 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Show Register route
+Route::get('/register', [UserController::class, 'create'])->name('auth.register');
+
+// Store new user route
+Route::post('/users', [UserController::class,'store'])->name('auth.store');
+
+// Logout the user 
+Route::post('/logout', [UserController::class, 'logout'])->name('auth.logout');
+
+// Show Login route
+Route::get('/login', [UserController::class,'login'])->name('auth.login');
+
+// Authenticate user route
+Route::post('/authenticate', [UserController::class, 'authenticate'])->name('auth.authenticate');
