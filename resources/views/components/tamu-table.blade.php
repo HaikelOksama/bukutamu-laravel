@@ -46,7 +46,7 @@
                         {{$tamu->keperluan}}
                     </th>
                     <th>
-                        {{$tamu->tanggalDatang}}
+                        {{date('d-m-Y', strtotime($tamu->tanggalDatang));}}
                     </th>
                     <th>
                         <div class="btn-group">
@@ -71,4 +71,4 @@
         </table>
         @else
         <p>No Data</p>
-        @endunless
+@endunless

@@ -3,14 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tamu;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TamuController extends Controller
 {
     public function index() {
+        $tamu = Tamu::latest()->get();
+        //Check if month and year exist in params  
+        if(request()->has(['month', 'year'])) {
+            $month = request('month');
+            $year = request('year');
+            $tamu = Tamu::FilterByMonth($month, $year)->get();
+        }
         return view('tamu.index', [
             'heading' => 'Data Tamu',
-            'tamu' => Tamu::all(),
+            'tamu' => $tamu,
+        ]);
+    }
+
+    public function listUser(User $id) {
+        return view('tamu.listUser', [
+            'tamu' => $id->tamu,
         ]);
     }
 
@@ -28,6 +42,7 @@ class TamuController extends Controller
             'tanggalDatang' => 'required',
         ]);
 
+        // Store the user_id data 
         $formfields['user_id'] = auth()->id();
 
         Tamu::create($formfields);

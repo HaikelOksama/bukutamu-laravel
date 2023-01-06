@@ -29,6 +29,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Show tamu list by user
+Route::get('/user/{id}/tamu', [TamuController::class, 'listUser'])->name('listUser')->middleware('auth');
+
 // Show Register route
 Route::get('/register', [UserController::class, 'create'])->name('auth.register')->middleware('guest');
 
