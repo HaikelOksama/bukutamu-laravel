@@ -1,20 +1,19 @@
-
 <x-layout>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
+    <x-slot:title>Input</x-slot:title>
+        <div class="card card-primary card-outline">
+            <h2 class="card-header">
                 Tambah Tamu
-            </div>
+            </h2>
             <div class="card-body">
                 <form method="post" action="/tamu">
                     @csrf
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Nama</label>
-                        <input type="text" name="nama" class="form-control" placeholder="Nama Lengkap">
+                        <label for="nama">Nama</label>
+                        <input required type="text" name="nama" class="form-control" placeholder="Nama Lengkap">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Kelamin</label>
-                        <select name="kelamin" id="">
+                        <label for="kelamin">Kelamin</label>
+                        <select class="custom-select form-control-border" name="kelamin" id="">
                             <option value="L">Laki Laki</option>
                             <option value="P">Perempuan</option>
                         </select>
@@ -24,18 +23,16 @@
                         <input type="email" name="email" class="form-control" placeholder="Email">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">No HP</label>
-                        <input type="text" name="nohp" class="form-control" placeholder="No Hp">
+                        <label for="nohp">No HP</label>
+                        <input required type="text" name="nohp" class="form-control" placeholder="No Hp">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Keperluan</label>
-                        <textarea name="keperluan" id="" cols="30" rows="10" placeholder="Keperluan">
-                           
-                        </textarea>
-            
+                        <label for="keperluan">Keperluan</label>
+                        <textarea class="form-control" name="keperluan" id="" placeholder="Keperluan">
+                        </textarea>           
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Tanggal Datang</label>
+                        <label for="tanggalDatang">Tanggal Datang</label>
                         <input type="date" name="tanggalDatang" class="form-control" placeholder="Email">
                     </div>
                 
@@ -43,5 +40,4 @@
                 </form>
             </div>
         </div>
-    </div>
 </x-layout>

@@ -1,10 +1,10 @@
 
 <x-layout>
-    <div class="container">
-        <div class="card">
-            <div class="card-header">
+    <x-slot:title>Edit</x-slot:title>
+        <div class="card card-primary card-outline">
+            <h2 class="card-header">
                 Edit Tamu
-            </div>
+            </h2>
             <div class="card-body">
                 <form method="POST" action="{{route('update', $tamu->id)}}">
                     @csrf
@@ -15,7 +15,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputEmail1">Kelamin</label>
-                        <select name="kelamin" id="">
+                        <select class="custom-select form-control-border" name="kelamin" id="">
                             <option value="L" {{$tamu->kelamin == 'L' ? 'selected':''}}>Laki Laki</option>
                             <option value="P" {{$tamu->kelamin == 'P' ? 'selected':''}}>Perempuan</option>
                         </select>
@@ -29,8 +29,8 @@
                         <input type="text" name="nohp" class="form-control" placeholder="No Hp" value="{{$tamu->noHp}}">
                     </div>
                     <div class="form-group">
-                        <label for="exampleInputEmail1">Keperluan</label>
-                        <textarea name="keperluan" id="" cols="30" rows="10" placeholder="Keperluan">
+                        <label  for="exampleInputEmail1">Keperluan</label>
+                        <textarea class="form-control" name="keperluan" id="" cols="30" rows="10" placeholder="Keperluan">
                             {{$tamu->keperluan}}
                         </textarea>
             

@@ -1,7 +1,7 @@
 @props(['tamu'])
 
 @unless (count($tamu) == 0)
-        <table class="table table-bordered">
+        <table class="table table-bordered" id="example1">
             <thead>
                 <tr>
 
@@ -22,33 +22,33 @@
                 @foreach ($tamu as $tamu)
                 <tr>
                 
-                    <th>
+                    <td>
                         {{$key}}
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         {{$tamu->nama}}
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         @if ($tamu->kelamin == 'L')
                             Laki-Laki
                         @else
                             Perempuan
                         @endif
                         
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         {{$tamu->email}}
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         {{$tamu->noHp}}
-                    </th>
-                    <th>
-                        {{$tamu->keperluan}}
-                    </th>
-                    <th>
+                    </td>
+                    <td>
+                        {{Str::limit($tamu->keperluan, 30, '...')}}
+                    </td>
+                    <td>
                         {{date('d-m-Y', strtotime($tamu->tanggalDatang));}}
-                    </th>
-                    <th>
+                    </td>
+                    <td>
                         <div class="btn-group">
                             <a href="{{route('edit', $tamu->id)}}" class="btn btn-primary btn-sm">Edit</a>
                             <a href="{{route('detail', $tamu->id)}}" class="btn btn-warning btn-sm">Detail</a>
@@ -58,7 +58,7 @@
                                 <button onclick="return confirm('Anda yakin?')" type="submit"  class="btn btn-danger btn-sm">Hapus Tamu</button>
                             </form>                       
                         </div>
-                    </th>
+                    </td>
                     
                         @php
                             $key++;
