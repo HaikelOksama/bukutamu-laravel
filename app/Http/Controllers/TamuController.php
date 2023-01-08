@@ -4,21 +4,44 @@ namespace App\Http\Controllers;
 
 use App\Models\Tamu;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class TamuController extends Controller
 {
     public function index() {
+        
+
         $tamu = Tamu::latest()->get();
-        //Check if month and year exist in params  
-        if(request()->has(['month', 'year'])) {
-            $month = request('month');
-            $year = request('year');
+
+        $tamuDateOrdered = Tamu::orderBy('tanggalDatang', 'asc')->get();
+
+        // Get year value from tamu model for select option
+        $yearList = $tamuDateOrdered->pluck('tanggalDatang')->map(function ($date) {
+            return Carbon::parse($date)->year;})->unique();
+
+        if(request()->has('month')) {
+            $monthInput = request()->input('month');
+
+            // Convert the month input to a timestamp using strtotime()
+            $timestamp = strtotime($monthInput);
+
+            // Separate the year and month using the date() function
+            $year = date('Y', $timestamp);
+            $month = date('m', $timestamp);
             $tamu = Tamu::FilterByMonth($month, $year)->get();
         }
+
+        if(request()->has(['awal', 'akhir'])) {
+            $awal = request('awal');
+            $akhir = request('akhir');
+            $tamu = Tamu::FilterByTimespan($awal, $akhir)->get();
+        }
+
         return view('tamu.index', [
             'heading' => 'Data Tamu',
             'tamu' => $tamu,
+            'yearList' => $yearList,
         ]);
     }
 

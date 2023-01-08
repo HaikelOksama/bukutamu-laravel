@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 // Index tamu route
-Route::get('/tamu', [TamuController::class, 'index'])->name('index');
+Route::get('/tamu', [TamuController::class, 'index'])->name('index')->middleware('auth');
 
 // Show Create tamu route
 Route::get('/tamu/baru', [TamuController::class, 'create'])->name('create')->middleware('auth');
@@ -14,7 +14,7 @@ Route::get('/tamu/baru', [TamuController::class, 'create'])->name('create')->mid
 Route::post('/tamu', [TamuController::class, 'store'])->name('store-tamu')->middleware('auth');
 
 // Show Tamu route
-Route::get('/tamu/{tamu}', [TamuController::class,'show'])->name('detail');
+Route::get('/tamu/{tamu}', [TamuController::class,'show'])->name('detail')->middleware('auth');
 
 // Show Edit tamu route
 Route::get('/tamu/{tamu}/edit', [TamuController::class, 'edit'])->name('edit')->middleware('auth');

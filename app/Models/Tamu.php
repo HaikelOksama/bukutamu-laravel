@@ -12,8 +12,12 @@ class Tamu extends Model
 
     public function scopeFilterByMonth($query, $month, $year) {
         return $query->whereYear('tanggalDatang', $year)
-                    ->whereMonth('tanggalDatang', $month);
-        
+                    ->whereMonth('tanggalDatang', $month);      
+    }
+
+    public function scopeFilterByTimespan($query, $awal, $akhir) {
+        return $query->where('tanggalDatang', '>=', $awal)
+                    ->where('tanggalDatang', '<=', $akhir);
     }
 
     public function user() {
