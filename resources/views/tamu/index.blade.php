@@ -1,7 +1,7 @@
 <x-layout>
     <x-slot:title>Tamu</x-slot:title>
 
-    <div class="card">
+    {{-- <div class="card">
         <h2 class="card-header">
             Filter Data Tamu
         </h2>
@@ -43,35 +43,28 @@
                 </form> 
             </div>
         </div>
-    </div>
+    </div> --}}
+
+    {{-- <livewire:tamu-filter-form></livewire:tamu-filter-form> --}}
 
     <div class="card">
         <div class="card-header">
-            <h2>Data Tamu Kantor Pusat</h2>
+            <h2 class="mr-auto">Data Tamu Kantor Pusat</h2>
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
+                    Tambah Data
+                </button>
+           
+                <livewire:create-tamu></livewire:create-tamu>
+                    
         </div>
         <div class="card-body">
-            <x-tamu-table :tamu="$tamu" />
+            {{-- <x-tamu-table :tamu="$tamu" /> --}}
+            <livewire:guest-index>
+            </livewire:guest-index>
         </div>
     </div>
 
-    <x-slot:tableScript>
-        <script>
-            $(function () {
-              $("#example1").DataTable({
-                "responsive": true, "lengthChange": false, "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-              }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-              $('#example2').DataTable({
-                "paging": true,
-                "lengthChange": false,
-                "searching": false,
-                "ordering": true,
-                "info": true,
-                "autoWidth": false,
-                "responsive": true,
-              });
-            });
-          </script>
-    </x-slot:tableScript>
+    
+
 </x-layout>
 

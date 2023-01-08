@@ -17,6 +17,7 @@
    <link rel="stylesheet" href="{{asset('plugins/datatables-buttons/css/buttons.bootstrap4.min.css')}}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+  @livewireStyles
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -81,24 +82,16 @@
 <script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
 <!-- Bootstrap 4 -->
 <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- DataTables  & Plugins -->
-<script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-responsive/js/responsive.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/dataTables.buttons.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.bootstrap4.min.js')}}"></script>
-<script src="{{ asset('plugins/jszip/jszip.min.js')}}"></script>
-<script src="{{ asset('plugins/pdfmake/pdfmake.min.js')}}"></script>
-<script src="{{ asset('plugins/pdfmake/vfs_fonts.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.html5.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.print.min.js')}}"></script>
-<script src="{{ asset('plugins/datatables-buttons/js/buttons.colVis.min.js')}}"></script>
+@yield('datatable')
+
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
 
 {{$tableScript ?? ''}}
-
+<x-swal-message />
+@livewireScripts
 </body>
 </html>
 
@@ -142,6 +135,6 @@
     </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script> 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <x-swal-message />
+   
 </body>
 </html> --}}

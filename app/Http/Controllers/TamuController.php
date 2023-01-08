@@ -19,14 +19,6 @@ class TamuController extends Controller
         // Get year value from tamu model for select option
         $yearList = $tamuDateOrdered->pluck('tanggalDatang')->map(function ($date) {
             return Carbon::parse($date)->year;})->unique();
-        // dd($yearList);
-
-        //Check if month and year exist in params  
-        // if(request()->has(['month', 'year'])) {
-        //     $month = request('month');
-        //     $year = request('year');
-        //     $tamu = Tamu::FilterByMonth($month, $year)->get();
-        // }
 
         if(request()->has('month')) {
             $monthInput = request()->input('month');
