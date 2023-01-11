@@ -88,10 +88,16 @@
 
 <!-- AdminLTE App -->
 <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+<!-- ChartJS -->
+{{-- <script src="{{asset('plugins/chart.js/Chart.min.js')}}"></script> --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+@livewireScripts
+
+{{$chartJs ?? ''}}
+
 
 {{$tableScript ?? ''}}
 <x-swal-message />
-@livewireScripts
 </body>
 </html>
 

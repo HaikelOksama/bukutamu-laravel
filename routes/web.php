@@ -25,6 +25,12 @@ Route::put('/tamu/{tamu}', [TamuController::class, 'update'])->name('update')->m
 // Destroy tamu route
 Route::delete('/tamu/{tamu}', [TamuController::class, 'destroy'])->name('destroy')->middleware('auth');
 
+// Report page
+Route::get('/report', [TamuController::class, 'laporan'])->name('report')->middleware('auth');
+
+// Statistic Page
+Route::get('/statistic', [TamuController::class, 'statistic'])->name('statistic')->middleware('auth');
+
 Route::get('/', function () {
     return view('welcome');
 });

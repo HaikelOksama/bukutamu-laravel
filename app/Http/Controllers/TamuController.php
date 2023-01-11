@@ -10,8 +10,6 @@ use Illuminate\Http\Request;
 class TamuController extends Controller
 {
     public function index() {
-        
-
         $tamu = Tamu::latest()->get();
 
         $tamuDateOrdered = Tamu::orderBy('tanggalDatang', 'asc')->get();
@@ -103,4 +101,119 @@ class TamuController extends Controller
         $tamu->delete();
         return redirect()->route('index')->with('message', 'Data tamu berhasil dihapus');
     }
+
+    public function laporan() {
+        setlocale(LC_ALL, 'IND');
+        $tamu = Tamu::latest()->get();
+        // $tamuDateOrdered = Tamu::orderBy('tanggalDatang', 'asc')->get();
+
+        // // Get year value from tamu model for select option
+        // $yearList = $tamuDateOrdered->pluck('tanggalDatang')->map(function ($date) {
+        //     return Carbon::parse($date)->year;})->unique();
+        
+        $heading = 'Data Tamu Kantor Pusat';
+
+        if(request()->input('month') != null) {
+            $monthInput = request()->input('month');
+
+                // Convert the month input to a timestamp using strtotime()
+            $timestamp = strtotime($monthInput);
+
+            // Separate the year and month using the date() function
+            $year = date('Y', $timestamp);
+            $month = date('m', $timestamp);
+            $monthName = date('F', $timestamp);
+            $tamu = Tamu::FilterByMonth($month, $year)->get();
+            $heading = $heading . ' Pada Bulan ' . $monthName . ' '. $year;
+        }
+
+        if(request()->input('akhir') != null) {
+
+            $awal = request('awal');
+            $akhir = request('akhir');
+            $tamu = Tamu::FilterByTimespan($awal, $akhir)->get();
+
+            $formatAwal = date('d-m-Y', strtotime($awal));
+            $formatAkhir = date('d-m-Y', strtotime($akhir));
+            $heading = $heading . ' Dari Tanggal '. $formatAwal . ' Hingga ' . $formatAkhir;
+        }
+        return view('tamu.laporan', ['tamu' => $tamu , 'heading' => $heading]);
+    }
+
+    public function statistic() {
+        $tamuDateOrdered = Tamu::orderBy('tanggalDatang', 'asc')->get();
+
+        // Get year value from tamu model for select option
+        $yearList = $tamuDateOrdered->pluck('tanggalDatang')->map(function ($date) {
+            return Carbon::parse($date)->year;})->unique();
+
+        $query = Tamu::orderBy('tanggalDatang', 'asc')->selectRaw('MONTH(tanggalDatang) as month, YEAR(tanggalDatang) as year, COUNT(tanggalDatang) as total')
+        ->groupBy(['month', 'year']);
+        
+        $tamuChart = $query->whereYear('tanggalDatang', date('Y'))->get();
+
+        $getYear = date('Y');
+        
+        if(request()->input('year') != null) {
+            $year = request()->input('year');
+            $intYear = intval($year);
+            $tamuChart = Tamu::orderBy('tanggalDatang', 'asc')->selectRaw('MONTH(tanggalDatang) as month, YEAR(tanggalDatang) as year, COUNT(tanggalDatang) as total')
+            ->groupBy(['month', 'year'])->whereYear('tanggalDatang', $intYear)->get();
+            $getYear = $year;
+        }
+
+        $monthList = [];
+        foreach ($tamuChart as $data) {  
+            array_push($monthList, $data->month);
+        }
+        $monthListC = [];
+        
+        foreach($monthList as $month){
+            if($month === 1) {
+                array_push($monthListC, "Januari");
+            }
+            if($month === 2) {
+            array_push($monthListC, "Februari");
+            }
+            if($month === 3) {
+                array_push($monthListC, "Maret");
+            }
+            if($month === 4) {
+                array_push($monthListC, "April");
+                }
+            if($month === 5) {
+            array_push($monthListC, "Mei");
+            }
+            if($month === 6) {
+                array_push($monthListC, "Juni");
+                } 
+            if($month === 7) {
+            array_push($monthListC, "Juli");
+            }
+            if($month === 8) {
+                array_push($monthListC, "Agustus");
+            }
+            if($month === 9) {
+                array_push($monthListC, "September");
+                }
+            if($month === 10) {
+            array_push($monthListC, "Oktober");
+            }
+            if($month === 11) {
+                array_push($monthListC, "November");
+            }
+            if($month == 12) {
+            array_push($monthListC, "Desember");
+            }
+        }
+
+        return view('tamu.statistik' , [
+            'chartData' => $tamuChart,
+            'chartLabel' => $monthListC,
+            'getYear' => $getYear,
+            'yearList' => $yearList
+        ]);
+    }
+
+
 }

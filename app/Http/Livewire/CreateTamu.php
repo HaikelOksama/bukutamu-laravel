@@ -15,6 +15,7 @@ class CreateTamu extends Component
     public $nohp;
     public $keperluan;
     public $tanggalDatang;
+    public $prefixHp = '+62';
 
     public function render()
     {
@@ -22,18 +23,29 @@ class CreateTamu extends Component
     }
 
     public function store() {
-        $this->validate([
-           'email' =>'nullable|email',
+        $input  = $this->validate([
+            'nama' => 'required',
+            'kelamin' => 'required',
+            'email' =>'nullable|email',
+            'nohp' => 'numeric|max_digits:15',
+            'keperluan' =>'required',
+            'tanggalDatang' =>'required|date',
         ]);
-        $instance = Tamu::create([
-            'nama' => $this->nama,
-            'kelamin' => $this->kelamin,
-            'email' => $this->email ?? '',
-            'nohp' => $this->nohp,
-            'keperluan' => $this->keperluan,
-            'tanggalDatang' => $this->tanggalDatang,
-            'user_id' => auth()->id(),
-        ]);
+
+        $input['nohp'] = $this->prefixHp . $input['nohp'];
+        $input['user_id'] = auth()->id();
+
+        $instance = Tamu::create($input);
+
+        // $instance = Tamu::create([
+        //     'nama' => $this->nama,
+        //     'kelamin' => $this->kelamin,
+        //     'email' => $this->email ?? '',
+        //     'nohp' = $this->prefixHp + $this->nohp,
+        //     'keperluan' => $this->keperluan,
+        //     'tanggalDatang' => $this->tanggalDatang,
+        //     'user_id' => auth()->id(),
+        // ]);
 
         $this->resetInput();
 

@@ -50,29 +50,20 @@
                 <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
-            <ul class="nav nav-treeview">
+            <ul class="nav nav-treeview pl-2">
                 <li class="nav-item">
-                <a href="{{route('index')}}" class="nav-link active">
-                    <i class="far fa-circle nav-icon"></i>
+                <a href="{{route('index')}}" class="nav-link">
+                    <i class="fa-solid fa-arrows-down-to-people nav-icon"></i>
                     <p>Semua Data Tamu</p>
                 </a>
                 </li>
                 <li class="nav-item">
-                <a href="#" class="nav-link">
-                    <i class="far fa-circle nav-icon"></i>
-                    <p>Inactive Page</p>
+                <a href="{{route('statistic')}}" class="nav-link">
+                    <i class="fa-solid fa-chart-simple nav-icon"></i>
+                    <p>Statistik</p>
                 </a>
                 </li>
             </ul>
-            </li>
-            <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                Simple Link
-                <span class="right badge badge-danger">New</span>
-                </p>
-            </a>
             </li>
         </ul>
         </nav>

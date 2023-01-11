@@ -3,6 +3,7 @@
 namespace App\Http\Livewire;
 
 use App\Models\Tamu;
+use Illuminate\Http\Request;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,7 +21,7 @@ class GuestIndex extends Component
 
     protected $listeners = [
         'tamuStored' => 'handleStoreEvent',
-        ''
+        'updateTamu' => 'handleUpdateTamu'
     ];
 
     protected $queryString = [
@@ -29,10 +30,18 @@ class GuestIndex extends Component
         'akhir'  => ['except' => '']
     ];
 
-
     public function handleStoreEvent($instance) {
         // dd($instance);
         session()->flash('message', 'Tamu '.$instance['nama'].' Berhasil ditambahkan!');
+    }
+
+    public function getTamu($id) {
+        $tamu = Tamu::find($id);
+        $this->emit('getTamu', $tamu);
+    }
+
+    public function handleUpdateTamu($instance) {
+        session()->flash('message', 'Tamu ' .$instance['nama'] . 'Telah diupdate!');
     }
 
     public function destroy($id) {
@@ -43,9 +52,7 @@ class GuestIndex extends Component
         }
     }
 
-    public function render()
-    {
-
+    public function render() {
         $tamu = Tamu::latest()
         ->when($this->month, function ($query) {
             $monthInput = $this->month;
@@ -63,9 +70,74 @@ class GuestIndex extends Component
             $akhir = $this->akhir;
             return $query->FilterByTimespan($awal, $akhir);
         });
+        
+        $tamuChart = Tamu::orderBy('tanggalDatang', 'asc')->selectRaw('MONTH(tanggalDatang) as month, YEAR(tanggalDatang) as year, COUNT(tanggalDatang) as total')
+        ->groupBy(['month', 'year'])->whereYear('tanggalDatang', date('Y'))->get();
+        
+        $monthList = [];
+        foreach ($tamuChart as $data) {  
+            array_push($monthList, $data->month);
+        }
+        $monthListC = [];
+        
+        foreach($monthList as $month){
+            if($month === 1) {
+                array_push($monthListC, "Januari");
+            }
+            if($month === 2) {
+            array_push($monthListC, "Februari");
+            }
+            if($month === 3) {
+                array_push($monthListC, "Maret");
+            }
+            if($month === 4) {
+                array_push($monthListC, "April");
+                }
+            if($month === 5) {
+            array_push($monthListC, "Mei");
+            }
+            if($month === 6) {
+                array_push($monthListC, "Juni");
+                } 
+            if($month === 7) {
+            array_push($monthListC, "Juli");
+            }
+            if($month === 8) {
+                array_push($monthListC, "Agustus");
+            }
+            if($month === 9) {
+                array_push($monthListC, "September");
+                }
+            if($month === 10) {
+            array_push($monthListC, "Oktober");
+            }
+            if($month === 11) {
+                array_push($monthListC, "November");
+            }
+            if($month == 12) {
+            array_push($monthListC, "Desember");
+            }
+        }
 
+        $this->emit('allTamu', $tamu);
+        $this->emit('updateChart', $tamuChart, $monthListC);
 
-        return view('livewire.guest-index', ['tamu' => $tamu->paginate($this->paginate)]);
+        return view('livewire.guest-index', [
+            'tamu' => $tamu->paginate($this->paginate), 
+            'chartData' => $tamuChart,
+            'monthData' => $monthListC,
+        ]);
+    }
+
+    public function allTamu($tamu) {
+        $this->emit('allTamu', $tamu);
+    }
+
+    public function resetData(Request $request) {
+        $request->flush();
+        $this->resetMonth();
+        $this->resetTimespan();
+        
     }
 
     public function resetMonth() {
