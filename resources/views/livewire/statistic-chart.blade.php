@@ -33,21 +33,22 @@
                     }
                 }
             });
+
             window.livewire.on('updateChart', () => {
                 console.log('Chart is updated')
                 dataTamu.data.labels = []
-                dataTamu.data.datasets[0].data = [];
-                dataTamu.data.datasets[0].backgroundColor = [];
+                dataTamu.data.datasets[0].data = []
+                dataTamu.data.datasets[0].backgroundColor = []
                 
                 @foreach ($chartLabel as $label)
                 dataTamu.data.labels.push("{{$label}}");
                 @endforeach
 
                 @foreach ($chartData as $data)
-                dataTamu.data.datasets[0].data.push({{ $data->total }});
+                dataTamu.data.datasets[0].data.push({{ $data->total }})
                 @endforeach
 
-                dataTamu.data.datasets[0].backgroundColor.push('rgba(54, 162, 235, 0.2)');
+                dataTamu.data.datasets[0].backgroundColor.push('rgba(54, 162, 235, 0.2)')
                 dataTamu.update();
             })
         </script>       

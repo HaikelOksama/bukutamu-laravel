@@ -19,9 +19,9 @@
       timer: 3000
     });
 
-    Toast.fire({
-        icon: 'success',
-        title: "{{session('deleted')}}"
-      })
+    // Toast.fire({
+    //     icon: 'success',
+    //     title: "{{session('deleted')}}"
+    //   })
 </script>
 @endif

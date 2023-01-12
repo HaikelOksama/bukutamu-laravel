@@ -76,7 +76,7 @@ class UserController extends Controller
         if(auth()->attempt($formFields)) {
             $request->session()->regenerate();
 
-            return redirect()->route('index')->with('message', 'User is logged in');
+            return redirect()->route('dashboard')->with('message', 'User is logged in');
         }
 
         return back()->withErrors(['username' => 'Data login tidak ditemukan'])->onlyInput();

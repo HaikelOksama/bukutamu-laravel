@@ -43,6 +43,80 @@ class TamuController extends Controller
         ]);
     }
 
+    public function dashboard() {
+        $tamu = Tamu::latest()->take(10)->get();
+        // Convert the month input to a timestamp using strtotime()
+
+        // Separate the year and month using the date() function
+        $getYear = date('Y');
+        $monthVal = date('m');
+        
+        $tamuThisMonth = Tamu::FilterByMonth($monthVal, $getYear)->get();
+        $tamuToday = Tamu::where('tanggalDatang', date('Y-m-d'))->get();
+
+        $query = Tamu::orderBy('tanggalDatang', 'asc')->selectRaw('MONTH(tanggalDatang) as month, YEAR(tanggalDatang) as year, COUNT(tanggalDatang) as total')
+        ->groupBy(['month', 'year']);
+        $tamuChart = $query->whereYear('tanggalDatang', date('Y'))->get();
+
+
+        $monthList = [];
+        foreach ($tamuChart as $data) {  
+            array_push($monthList, $data->month);
+        }
+        $monthListC = [];
+
+        foreach($monthList as $month){
+            if($month === 1) {
+                array_push($monthListC, "Januari");
+            }
+            if($month === 2) {
+            array_push($monthListC, "Februari");
+            }
+            if($month === 3) {
+                array_push($monthListC, "Maret");
+            }
+            if($month === 4) {
+                array_push($monthListC, "April");
+                }
+            if($month === 5) {
+            array_push($monthListC, "Mei");
+            }
+            if($month === 6) {
+                array_push($monthListC, "Juni");
+                } 
+            if($month === 7) {
+            array_push($monthListC, "Juli");
+            }
+            if($month === 8) {
+                array_push($monthListC, "Agustus");
+            }
+            if($month === 9) {
+                array_push($monthListC, "September");
+                }
+            if($month === 10) {
+            array_push($monthListC, "Oktober");
+            }
+            if($month === 11) {
+                array_push($monthListC, "November");
+            }
+            if($month == 12) {
+            array_push($monthListC, "Desember");
+            }
+        }
+        return view('tamu.dashboard', [
+            'tamu' => $tamu,
+            'thisMonth' => $tamuThisMonth,
+            'todayData' => $tamuToday,
+            'chartData' => $tamuChart,
+            'chartLabel' => $monthListC,
+            'getYear' => $getYear,
+        ]);
+    }
+
+    public function kedatangan() {
+        return view('tamu.kedatangan');
+    }
+
     public function listUser(User $id) {
         return view('tamu.listUser', [
             'tamu' => $id->tamu,
@@ -116,7 +190,7 @@ class TamuController extends Controller
         if(request()->input('month') != null) {
             $monthInput = request()->input('month');
 
-                // Convert the month input to a timestamp using strtotime()
+            // Convert the month input to a timestamp using strtotime()
             $timestamp = strtotime($monthInput);
 
             // Separate the year and month using the date() function
@@ -167,7 +241,7 @@ class TamuController extends Controller
             array_push($monthList, $data->month);
         }
         $monthListC = [];
-        
+
         foreach($monthList as $month){
             if($month === 1) {
                 array_push($monthListC, "Januari");

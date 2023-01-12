@@ -4,6 +4,11 @@ use App\Http\Controllers\TamuController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/kedatangan', [TamuController::class, 'kedatangan'])->name('kedatangan');
+
+// Dashboard Page
+Route::get('/', [TamuController::class, 'dashboard'])->name('dashboard')->middleware('auth');
+
 // Index tamu route
 Route::get('/tamu', [TamuController::class, 'index'])->name('index')->middleware('auth');
 
@@ -31,9 +36,11 @@ Route::get('/report', [TamuController::class, 'laporan'])->name('report')->middl
 // Statistic Page
 Route::get('/statistic', [TamuController::class, 'statistic'])->name('statistic')->middleware('auth');
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 // Show tamu list by user
 Route::get('/user/{id}/tamu', [TamuController::class, 'listUser'])->name('listUser')->middleware('auth');

@@ -15,6 +15,11 @@ class Tamu extends Model
                     ->whereMonth('tanggalDatang', $month);      
     }
 
+    public function scopeFilterSearch($query, $search) {
+        return $query->where('nama', 'like', '%'. $search .'%')
+                    ->orWhere('email', 'like', '%'. $search .'%');
+    }
+
     public function scopeFilterByTimespan($query, $awal, $akhir) {
         return $query->where('tanggalDatang', '>=', $awal)
                     ->where('tanggalDatang', '<=', $akhir);

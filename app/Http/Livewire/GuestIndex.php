@@ -11,6 +11,7 @@ use Livewire\WithPagination;
 class GuestIndex extends Component
 {
     use WithPagination;
+
     protected $paginationTheme = 'bootstrap';
     public $paginate = 10;
 
@@ -18,6 +19,7 @@ class GuestIndex extends Component
     public $month;
     public $awal;
     public $akhir;
+    public $search;
 
     protected $listeners = [
         'tamuStored' => 'handleStoreEvent',
@@ -49,6 +51,7 @@ class GuestIndex extends Component
             $instance = Tamu::find($id);
             $instance->delete();
             session()->flash('deleted', 'Tamu '.$instance['nama'].' Telah Dihapus');
+            $this->emit('tamuDestroyed', $instance);
         }
     }
 
@@ -69,7 +72,12 @@ class GuestIndex extends Component
             $awal = $this->awal;
             $akhir = $this->akhir;
             return $query->FilterByTimespan($awal, $akhir);
-        });
+        })
+        ->when($this->search, function ($query){
+            $search = $this->search;
+            return $query->FilterSearch($search);
+        })
+        ;
         
         $tamuChart = Tamu::orderBy('tanggalDatang', 'asc')->selectRaw('MONTH(tanggalDatang) as month, YEAR(tanggalDatang) as year, COUNT(tanggalDatang) as total')
         ->groupBy(['month', 'year'])->whereYear('tanggalDatang', date('Y'))->get();
@@ -137,7 +145,7 @@ class GuestIndex extends Component
         $request->flush();
         $this->resetMonth();
         $this->resetTimespan();
-        
+        $this->search = null;
     }
 
     public function resetMonth() {

@@ -7,7 +7,7 @@
         <div class="card-header">
             <h2 class="mr-auto">Data Tamu Kantor Pusat</h2>
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-lg">
-                    Tambah Data
+                    <i class="fa-solid fa-person-circle-plus"></i> Tambah Data
                 </button>
                     
         </div>

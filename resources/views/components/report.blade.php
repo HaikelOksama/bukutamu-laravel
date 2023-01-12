@@ -9,6 +9,7 @@
     <!-- Font Awesome Icons -->
     <script src="https://kit.fontawesome.com/c18ae0c266.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+    @livewireStyles
 </head>
 <body>
     {{$slot}}
@@ -18,7 +19,8 @@
     <script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <!-- AdminLTE App -->
     <script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
-
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    @livewireScripts
     {{$script ?? ''}}
 </body>
 

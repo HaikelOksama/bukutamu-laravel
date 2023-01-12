@@ -18,30 +18,28 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
                 <hr>
                 <div class="container">
                     <h3>Filter data Time span</h3>
-                        <div class="row align-items-center">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="inputText" class="control-label mb-2 mr-2">Awal</label>
-                                    <input wire:change="resetMonth" wire:model="awal" type="date" name="awal" class="form-control" id="inputText" placeholder="Filter Data">
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <label for="inputText" class="control-label mb-2 mr-2">Akhir</label>
-                                    <input wire:change="resetMonth" wire:model="akhir" type="date" name="akhir" class="form-control" id="inputText" placeholder="Filter Data">
-                                </div>
+                    <div class="row align-items-center">
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="inputText" class="control-label mb-2 mr-2">Awal</label>
+                                <input wire:change="resetMonth" wire:model="awal" type="date" name="awal" class="form-control" id="inputText" placeholder="Filter Data">
                             </div>
                         </div>
+                        <div class="col-6">
+                            <div class="form-group">
+                                <label for="inputText" class="control-label mb-2 mr-2">Akhir</label>
+                                <input wire:change="resetMonth" wire:model="akhir" type="date" name="akhir" class="form-control" id="inputText" placeholder="Filter Data">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <hr>
-                
                 <div class="container">      
-                    <button type="submit" class="btn btn-success" > Laporan</button>
+                    <button type="submit" class="btn btn-success" ><i class="fa-solid fa-print"></i> Laporan</button>
                 </div>
             </form>
             <br>
@@ -55,12 +53,14 @@
     <div class="card card-primary card-outline">
         <div class="card-header row justify-content-between align-items-center">
             <h3 class="col-10">Data Tamu</h3>
-            <div class="container col justify-content-end">
-                <button wire:click="resetData" class="btn btn-success" >Refresh Data</button>
+            <div class="container col d-flex justify-content-end">
+                <button wire:click="resetData" class="btn btn-success" ><i class="fa-solid fa-arrows-rotate"></i></button>
             </div>
         </div>
         <div class="card-body">
-            @unless (count($tamu) == 0)
+            <div class="card-header">
+                <input wire:model="search" type="text" name="search" class="form-control" id="inputText" placeholder="Search....">
+            </div>
             <table class="table table-bordered table-hover table-responsive-sm" id="example1" wire:ignore.self>
                 <thead wire:ignore.self>
                     <tr>
@@ -76,55 +76,58 @@
                     </tr>
                 </thead>   
                 <tbody>
-                    @php
-                        $key = 1;
-                    @endphp
-                    @foreach ($tamu as $data)
-                    <tr>
-                    
-                        <td>
-                            {{$key}}
-                        </td>
-                        <td>
-                            {{$data->nama}}
-                        </td>
-                        <td>
-                            @if ($data->kelamin == 'L')
-                                Laki-Laki
-                            @else
-                                Perempuan
-                            @endif
-                            
-                        </td>
-                        <td>
-                            {{$data->email}}
-                        </td>
-                        <td>
-                            {{$data->noHp}}
-                        </td>
-                        <td>
-                            {{Str::limit($data->keperluan, 30, '...')}}
-                        </td>
-                        <td>
-                            {{date('d-m-Y', strtotime($data->tanggalDatang));}}
-                        </td>
-                        <td>
-                            <div class="btn-group">
-                                <button data-toggle="modal" data-target="#modal-lg-update" wire:click="getTamu({{$data->id}})" class="btn btn-primary btn-sm">Edit</button>
-                                <a href="{{route('detail', $data->id)}}" class="btn btn-warning btn-sm">Detail</a>
-                                <form wire:submit.prevent="destroy({{$data->id}})">
-
-                                    <button onclick="return confirm('Anda yakin?')" type="submit"  class="btn btn-danger btn-sm">Hapus</button>
-                                </form>                       
-                            </div>
-                        </td>
+                    @unless (count($tamu) == 0)
+                        @php
+                            $key = 1;
+                        @endphp
+                        @foreach ($tamu as $data)
+                        <tr>
                         
-                            @php
-                                $key++;
-                            @endphp
-                    </tr>
-                    @endforeach
-    
+                            <td>
+                                {{$key}}
+                            </td>
+                            <td>
+                                {{$data->nama}}
+                            </td>
+                            <td>
+                                @if ($data->kelamin == 'L')
+                                    Laki-Laki
+                                @else
+                                    Perempuan
+                                @endif
+                                
+                            </td>
+                            <td>
+                                {{$data->email}}
+                            </td>
+                            <td>
+                                {{$data->noHp}}
+                            </td>
+                            <td>
+                                {{Str::limit($data->keperluan, 30, '...')}}
+                            </td>
+                            <td>
+                                {{date('d-m-Y', strtotime($data->tanggalDatang));}}
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <button data-toggle="modal" data-target="#modal-lg-update" wire:click="getTamu({{$data->id}})" class="btn btn-primary btn-sm">Edit</button>
+                                    <a href="{{route('detail', $data->id)}}" class="btn btn-warning btn-sm">Detail</a>
+                                    <form wire:submit.prevent="destroy({{$data->id}})">
+
+                                        <button onclick="return confirm('Anda yakin?')" type="submit"  class="btn btn-danger btn-sm">Hapus</button>
+                                    </form>                       
+                                </div>
+                            </td>
+                            
+                                @php
+                                    $key++;
+                                @endphp
+                        </tr>
+                        @endforeach
+                    @else
+                    <code>No Data</code>
+                    @endunless
                 </tbody>
                 
             </table>
@@ -160,11 +163,9 @@
             </div>
         </div> --}}
 
-        @else
-        <p>No Data</p>
-    @endunless
+ 
     
-    @section('datatable')
+    {{-- @section('datatable')
     <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js')}}"></>
     <script src="{{ asset('plugins/datatables-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
     <script src="{{ asset('plugins/datatables-responsive/js/dataTables.responsive.min.js')}}"></script>
@@ -184,9 +185,26 @@
         //     "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
         //   }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
         // });
+        })
       </script>
-    @endsection
+    @endsection --}}
+    
+    <x-slot:tableScript>
+        <script>
+        window.livewire.on('tamuDestroyed', () => {
+            var Del = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+            });
 
-    <slot:
+            Del.fire({
+                icon: 'info',
+                title: "Tamu berhasil dihapus"
+            })
+        })
+        </script>
+    </x-slot:tableScript>
 
 </div>
